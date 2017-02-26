@@ -28,3 +28,10 @@ Execute following commands for generating ```bit array``` bitmap
 sudo chmod 775 ./bitmap_bitarray_generator.sh
 ./bitmap_bitarray_generator.sh
 ```
+
+## Generating bit array bitslice
+Execute following commands for generating ```bit array``` bitslice
+```sh
+sudo chmod 775 ./bitslice_bitarray_generator.sh
+./bitslice_bitarray_generator.sh
+```
