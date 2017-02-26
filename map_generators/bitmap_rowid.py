@@ -1,6 +1,7 @@
 from math import ceil
 
 headFile = 'data-0.txt'
+block_size = 1000
 
 bitmap_table = {amount + 1: [] for amount in range(5 * 10**4)}
 
@@ -21,19 +22,19 @@ secondary_index = {amount + 1: 'null' for amount in range(5 * 10**4)}
 # storing bitmap to file
 for amount, rowids in bitmap_table.items():
 	fileId = 0
-	for stride in range(ceil(len(rowids) / 1000)):
-		startIndex = stride * 1000
-		boundaryIndex = startIndex  + 1000
+	for stride in range(ceil(len(rowids) / block_size)):
+		startIndex = stride * block_size
+		boundaryIndex = startIndex  + block_size
 		fileName = '{}-{}.txt'.format(amount, fileId)
 		if fileId == 0:
 			secondary_index[amount] = fileName
 		fileId += 1
 		nextFile = '{}-{}.txt'.format(amount, fileId)
-		if boundaryIndex > len(rowids): 
+		if boundaryIndex > len(rowids):
 			boundaryIndex = len(rowids)
 			nextFile = 'null'
 		fileObject = open('./maps/bitmap_rowid/' + fileName, "w")
-		data = '{}\n{}'.format(' '.join([str(i) for i in rowids[startIndex:boundaryIndex]]), nextFile)
+		data = '{}\n{}'.format('\n'.join([str(i) for i in rowids[startIndex:boundaryIndex]]), nextFile)
 		fileObject.write(data)
 		fileObject.close()
 
