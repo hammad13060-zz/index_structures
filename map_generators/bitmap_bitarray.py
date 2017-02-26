@@ -2,50 +2,45 @@ from math import ceil
 
 headFile = 'data-0.txt'
 
-amount_set = set()
 bitmap_array_len = 2 * 10 ** 6
 bitmap_block_size = 32000
-while headFile != 'null':
+bitmap_table = {amount + 1: [] for amount in range(5 * 10**4)}
+
+while (headFile != 'null'):
 	fileObject = open('./database/' + headFile, 'r')
 	lines = fileObject.readlines()
 	nextFile = lines[-1]
-	for line in lines[:-1]:
-		amount = int(line.split(' ')[1])
-		amount_set.add(amount)
+	records = [line.strip('\n').split(' ') for line in lines[:-1]]
+	records = [[int(record[0]), int(record[1]), record[2]] for record in records]
+	for record in records:
+		index = record[0]
+		amount = record[1]
+		bitmap_table[amount].append(index)
 	headFile = nextFile
 	fileObject.close()
 
-secondary_index = {amount: 'null' for amount in amount_set}
+secondary_index = {amount+1: 'null' for amount in range(5 * 10**4)}
 
-for amount in amount_set:
-	headFile = 'data-0.txt'
+for amount, rowids in bitmap_table.items():
 	bitmap = [0 for i in range(bitmap_array_len)]
-	while (headFile != 'null'):
-		fileObject = open('./database/' + headFile, 'r')
-		lines = fileObject.readlines()
-		nextFile = lines[-1]
-		for line in lines[:-1]:
-			record = line.strip('\n').split(' ')
-			if amount == int(record[1]):
-				bitmap[int(record[0])] = 1
-		fileObject.close()
-		headFile = nextFile
+	for rowid in rowids:
+		bitmap[rowid] = 1
 
 	# storing bitmap for amount
 	fileId = 0
 	for stride in range(ceil(bitmap_array_len / bitmap_block_size)):
 		startIndex = stride * bitmap_block_size
-		boundaryIndex = startIndex  + bitmap_block_size
+		boundaryIndex = startIndex + bitmap_block_size
 		fileName = '{}-{}.txt'.format(amount, fileId)
 		if fileId == 0:
 			secondary_index[amount] = fileName
 		fileId += 1
 		nextFile = '{}-{}.txt'.format(amount, fileId)
-		if boundaryIndex > bitmap_array_len: 
+		if boundaryIndex > bitmap_array_len:
 			boundaryIndex = bitmap_array_len
 			nextFile = 'null'
 		fileObject = open('./maps/bitmap_bitarray/' + fileName, "w")
-		data = '{}\n{}'.format(' '.join([str(i) for i in bitmap]), nextFile)
+		data = '{}\n{}'.format('\n'.join([str(i) for i in bitmap[startIndex:boundaryIndex]]), nextFile)
 		fileObject.write(data)
 		fileObject.close()
 
