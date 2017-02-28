@@ -1,4 +1,5 @@
 from math import ceil
+import gzip
 
 headFile = 'data-0.txt'
 
@@ -31,24 +32,23 @@ for amount, rowids in bitmap_table.items():
 	for stride in range(ceil(bitmap_array_len / bitmap_block_size)):
 		startIndex = stride * bitmap_block_size
 		boundaryIndex = startIndex + bitmap_block_size
-		fileName = '{}-{}.txt'.format(amount, fileId)
+		fileName = '{}-{}.txt.gz'.format(amount, fileId)
 		if fileId == 0:
 			secondary_index[amount] = fileName
 		fileId += 1
-		nextFile = '{}-{}.txt'.format(amount, fileId)
+		nextFile = '{}-{}.txt.gz'.format(amount, fileId)
 		if boundaryIndex > bitmap_array_len:
 			boundaryIndex = bitmap_array_len
 			nextFile = 'null'
-		fileObject = open('./maps/bitmap_bitarray/' + fileName, "w")
 		data = '{}\n{}'.format('\n'.join([str(i) for i in bitmap[startIndex:boundaryIndex]]), nextFile)
-		fileObject.write(data)
-		fileObject.close()
-
+		fileObject = gzip.open('./maps/bitmap_bitarray/' + fileName, 'wb')
+		fileObject.write(bytearray(data, 'utf-8'))
 
 # storing secondary index to file
 data = ''
 for amount, file in secondary_index.items():
-	data += '{} {}\n'.format(amount, file)
+	if file != 'null':
+		data += '{} {}\n'.format(amount, file)
 o = open('./secondary_indexes/' + 'bitmap_bitarray.txt', 'w')
 o.write(data)
 o.close()
