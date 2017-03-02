@@ -43,7 +43,12 @@ sudo chmod 775 ./query_generator.sh
 ./query_generator.sh
 ```
 
-## Running the sum query on the following indexes:
+## Running the query on the indexes generated:
+
+Query : ```Select SUM(sale amount) From SALES_TABLE Where <condition>```
+
+Indexes :
+
 a) No Index
 ```
 python3 ./query_scripts/no_index_query.py
