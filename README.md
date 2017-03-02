@@ -35,3 +35,28 @@ Execute following commands for generating ```bit array``` bitslice
 sudo chmod 775 ./bitslice_bitarray_generator.sh
 ./bitslice_bitarray_generator.sh
 ```
+
+## Generating queries
+Execute following commands for generating queries
+```sh
+sudo chmod 775 ./query_generator.sh
+./query_generator.sh
+```
+
+## Running the sum query on the following indexes:
+a) No Index
+```
+python3 ./query_scripts/no_index_query.py
+```
+b) Bitmap Index with RowId Representation
+```
+python3 ./query_scripts/bitmap_rowid_query.py
+```
+c) Bitmap Index with Bitarray Representation
+```
+python3 ./query_scripts/bitmap_bitarray_query.py
+```
+d) Bitslice Index
+```
+python3 ./query_scripts/bitslice_bitarray_query.py
+```
