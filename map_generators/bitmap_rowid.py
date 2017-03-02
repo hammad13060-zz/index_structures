@@ -3,7 +3,7 @@ from math import ceil
 headFile = 'data-0.txt'
 block_size = 1000
 
-bitmap_table = {amount + 1: [] for amount in range(5 * 10**4)}
+bitmap_table = {amount + 1: [] for amount in range(2500)}
 
 while (headFile != 'null'):
 	fileObject = open('./database/' + headFile, 'r')
@@ -18,7 +18,7 @@ while (headFile != 'null'):
 	headFile = nextFile
 	fileObject.close()
 
-secondary_index = {amount + 1: 'null' for amount in range(5 * 10**4)}
+secondary_index = {amount + 1: 'null' for amount in range(2500)}
 # storing bitmap to file
 for amount, rowids in bitmap_table.items():
 	fileId = 0
