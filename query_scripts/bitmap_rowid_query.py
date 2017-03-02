@@ -38,5 +38,3 @@ for i in range(6):
 	print('sum: {}'.format(s))
 	print('disk block(s) accessed: {}'.format(diskBlockCount))
 	print('\n')
-
-

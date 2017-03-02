@@ -25,6 +25,7 @@ for i in range(6):
 
 	s = 0
 	diskBlockCount = 0
+	blockSize = int(32000)
 	for amount, headFile in secondary_index.items():
 		rowIds = []
 		fileId = 0
@@ -34,7 +35,7 @@ for i in range(6):
 			lines = lines[2:-1].split('\\n') #good tip
 			diskBlockCount += 1
 			headFile = lines[-1]
-			rowIds.extend([fileId * 32000 + int(i) for i in range(len(lines[:-1])) if lines[i].strip('\n') == '1'])
+			rowIds.extend([fileId * blockSize + int(i) for i in range(len(lines[:-1])) if lines[i].strip('\n') == '1'])
 			fileId += 1
 		rowIds = set(rowIds)
 		s += (len(rowIds.intersection(qRowIds)) * amount)
@@ -42,5 +43,3 @@ for i in range(6):
 	print('sum: {}'.format(s))
 	print('disk block(s) accessed: {}'.format(diskBlockCount))
 	print('\n')
-
-
