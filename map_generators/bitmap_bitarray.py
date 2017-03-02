@@ -5,7 +5,7 @@ headFile = 'data-0.txt'
 
 bitmap_array_len = 2 * 10 ** 6
 bitmap_block_size = 32000
-bitmap_table = {amount + 1: [] for amount in range(5 * 10**4)}
+bitmap_table = {amount + 1: [] for amount in range(2500)}
 
 while (headFile != 'null'):
 	fileObject = open('./database/' + headFile, 'r')
@@ -20,7 +20,7 @@ while (headFile != 'null'):
 	headFile = nextFile
 	fileObject.close()
 
-secondary_index = {amount+1: 'null' for amount in range(5 * 10**4)}
+secondary_index = {amount+1: 'null' for amount in range(2500)}
 
 for amount, rowids in bitmap_table.items():
 	bitmap = [0 for i in range(bitmap_array_len)]

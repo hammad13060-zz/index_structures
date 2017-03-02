@@ -9,7 +9,7 @@ fileObject = 'abc'
 blockRecordCount = 0
 for i in range(totalRecords):
 	random_record = [
-		i, random.randint(1, 5 * (10 ** 4)),
+		i, random.randint(1, 2500),
 		''.join([random.choice(string.ascii_lowercase) for j in range(3)])
 	]
 	if createFile:
